@@ -1,3 +1,4 @@
+require('dotenv').config();
 var request = require('request');
 var fs = require('fs');
 
@@ -34,8 +35,8 @@ function downloadImageByURL(url, filePath) {
     .pipe(fs.createWriteStream(filePath));
 };
 
-var GITHUB_USER = "SeanSFitz";
-var GITHUB_TOKEN = "7880bc40d0ea572eb4fd38f5a85d8fa0e142e858";
+var GITHUB_USER = process.env.GITHUB_USER;
+var GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 console.log(`Welcome to the GitHub Avatar Downloader!`);
 

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SeanSFitz/github-avatar-downloader#readme",
   "dependencies": {
+    "dotenv": "^4.0.0",
     "request": "^2.81.0"
   }
 }
