@@ -1,6 +1,10 @@
 var request = require('request');
 var fs = require('fs');
 
+var args = process.argv.slice(2);
+var repo = args[1];
+var owner = args[0];
+
 function getRepoContributors(repoOwner, repoName, cb) {
   var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
 
@@ -35,7 +39,13 @@ var GITHUB_TOKEN = "7880bc40d0ea572eb4fd38f5a85d8fa0e142e858";
 
 console.log(`Welcome to the GitHub Avatar Downloader!`);
 
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(owner, repo, function(err, result) {
+
+  if (!owner || !repo) {
+    console.log("Required arguments are: <owner> <repo>")
+    return;
+  }
+
   console.log("Errors:", err);
   for (let contributor of result) {
     downloadImageByURL(contributor.avatar_url, './avatars/' + contributor.login + '.jpg');
