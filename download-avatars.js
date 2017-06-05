@@ -5,8 +5,8 @@ var mkdirp = require('mkdirp');
 var getDirName = require('path').dirname;
 
 var args = process.argv.slice(2);
-var repo = args[1];
-var owner = args[0];
+var repo = '';
+var owner = '';
 
 function getRepoContributors(repoOwner, repoName, cb) {
   var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
@@ -45,11 +45,6 @@ function downloadImageByURL(url, filePath) {
 };
 
 function loopThroughResults (err, result) {
-  if (!owner || !repo) {
-    console.log("Required arguments are: <owner> <repo>");
-    return;
-  }
-
   console.log("Errors:", err);
   for (let contributor of result) {
     downloadImageByURL(contributor.avatar_url, './avatars/' + repo + '/' + contributor.login + '.jpg');
@@ -62,6 +57,9 @@ function startProgram (args) {
     console.log("Required arguments are: <owner> <repo>");
     return;
   }
+
+  owner = args[1];
+  repo = args[0];
 
   getRepoContributors(owner, repo, loopThroughResults);
 
