@@ -38,8 +38,8 @@ console.log(`Welcome to the GitHub Avatar Downloader!`);
 getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Errors:", err);
   for (let contributor of result) {
-    console.log(`${contributor.avatar_url}`);
+    downloadImageByURL(contributor.avatar_url, './avatars/' + contributor.login + '.jpg');
   }
 });
 
-downloadImageByURL("https://avatars3.githubusercontent.com/u/1615?v=3", "test");
+//downloadImageByURL("https://avatars3.githubusercontent.com/u/1615?v=3", "test");
