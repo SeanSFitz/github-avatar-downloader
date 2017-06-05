@@ -2,9 +2,10 @@
   "name": "github-avatar-downloader",
   "version": "1.0.0",
   "description": "LHL Project",
-  "main": "index.js",
+  "main": "download-avatars.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node download-avatars.js"
   },
   "repository": {
     "type": "git",
