@@ -26,7 +26,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 };
 
 
-function downloadImageByURL(url, filePath) {
+function downloadImageByURL(url, filePath, login) {
 
   mkdirp(getDirName(filePath), function (err) {
     if (err) throw err;
@@ -36,7 +36,7 @@ function downloadImageByURL(url, filePath) {
         throw err;
       })
       .on('response', function (response) {
-        console.log("Avatar downloaded")
+        console.log(`Avatar downloaded for ${login}.`)
       })
       .pipe(fs.createWriteStream(filePath));
 
@@ -47,7 +47,7 @@ function downloadImageByURL(url, filePath) {
 function loopThroughResults (err, result) {
   console.log("Errors:", err);
   for (let contributor of result) {
-    downloadImageByURL(contributor.avatar_url, './avatars/' + repo + '/' + contributor.login + '.jpg');
+    downloadImageByURL(contributor.avatar_url, './avatars/' + repo + '/' + contributor.login + '.jpg', contributor.login);
   }
 };
 
