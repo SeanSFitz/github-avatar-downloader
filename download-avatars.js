@@ -1,6 +1,8 @@
 require('dotenv').config();
 var request = require('request');
 var fs = require('fs');
+var mkdirp = require('mkdirp');
+var getDirName = require('path').dirname;
 
 var args = process.argv.slice(2);
 var repo = args[1];
@@ -25,14 +27,21 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 
 function downloadImageByURL(url, filePath) {
-  request.get(url)
-    .on('error', function (err) {
-      throw err;
-    })
-    .on('response', function (response) {
-      console.log("Avatar downloaded")
-    })
-    .pipe(fs.createWriteStream(filePath));
+
+  mkdirp(getDirName(filePath), function (err) {
+    if (err) throw err;
+
+    request.get(url)
+      .on('error', function (err) {
+        throw err;
+      })
+      .on('response', function (response) {
+        console.log("Avatar downloaded")
+      })
+      .pipe(fs.createWriteStream(filePath));
+
+  });
+
 };
 
 var GITHUB_USER = process.env.GITHUB_USER;
@@ -49,7 +58,7 @@ getRepoContributors(owner, repo, function(err, result) {
 
   console.log("Errors:", err);
   for (let contributor of result) {
-    downloadImageByURL(contributor.avatar_url, './avatars/' + contributor.login + '.jpg');
+    downloadImageByURL(contributor.avatar_url, './avatars/' + repo + '/' + contributor.login + '.jpg');
   }
 });
 
