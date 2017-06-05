@@ -44,15 +44,9 @@ function downloadImageByURL(url, filePath) {
 
 };
 
-var GITHUB_USER = process.env.GITHUB_USER;
-var GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-
-console.log(`Welcome to the GitHub Avatar Downloader!`);
-
-getRepoContributors(owner, repo, function(err, result) {
-
+function loopThroughResults (err, result) {
   if (!owner || !repo) {
-    console.log("Required arguments are: <owner> <repo>")
+    console.log("Required arguments are: <owner> <repo>");
     return;
   }
 
@@ -60,6 +54,22 @@ getRepoContributors(owner, repo, function(err, result) {
   for (let contributor of result) {
     downloadImageByURL(contributor.avatar_url, './avatars/' + repo + '/' + contributor.login + '.jpg');
   }
-});
+};
 
-//downloadImageByURL("https://avatars3.githubusercontent.com/u/1615?v=3", "test");
+function startProgram (args) {
+  if (args.length !== 2) {
+    console.log('Invalid number of arguments.');
+    console.log("Required arguments are: <owner> <repo>");
+    return;
+  }
+
+  getRepoContributors(owner, repo, loopThroughResults);
+
+};
+
+var GITHUB_USER = process.env.GITHUB_USER;
+var GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+console.log(`Welcome to the GitHub Avatar Downloader!`);
+
+startProgram(args);
